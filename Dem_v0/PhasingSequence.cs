@@ -8,8 +8,8 @@ namespace ConsoleApp1
     internal enum PhasingPattern
     {
         None,
-        DxRxRx,
-        DxDxRx,
+        DxRxDx,
+        RxDxRx,
         RxRxRx
     }
 
@@ -33,24 +33,28 @@ namespace ConsoleApp1
                 return false;
             }
         }
-        public static bool TryDetect(List<(int,int)> sequence, out PhasingPattern pattern)
+
+        public static bool TryDetect(List<(int Index, int Value)> sequence, out PhasingPattern pattern)
         {
             pattern = PhasingPattern.None;
             if (sequence == null || sequence.Count < 3) return false;
 
             for (int i = 0; i + 3 <= sequence.Count; i++)
             {
-                int a = sequence[i], b = sequence[i + 1], c = sequence[i + 2];
+                // Extraer sólo el 'Value' de cada tupla (Index, Value)
+                var (_, a) = sequence[i];
+                var (_, b) = sequence[i + 1];
+                var (_, c) = sequence[i + 2];
 
-                if (IsDx(a) && IsRx(b) && IsRx(c))
+                if (IsDx(a) && IsRx(b) && IsDx(c))
                 {
-                    pattern = PhasingPattern.DxRxRx;
+                    pattern = PhasingPattern.DxRxDx;
                     return true;
                 }
 
-                if (IsDx(a) && IsDx(b) && IsRx(c))
+                if (IsRx(a) && IsDx(b) && IsRx(c))
                 {
-                    pattern = PhasingPattern.DxDxRx;
+                    pattern = PhasingPattern.RxDxRx;
                     return true;
                 }
 
@@ -66,9 +70,10 @@ namespace ConsoleApp1
         }
 
         // Versión conveniente que devuelve el tipo de patrón (PhasingPattern.None si no hay coincidencia).
-        public static PhasingPattern Detect(IReadOnlyList<int> sequence)
+        public static PhasingPattern Detect(IReadOnlyList<(int Index, int Value)> sequence)
         {
-            return TryDetect(sequence, out var p) ? p : PhasingPattern.None;
+            if (sequence == null) return PhasingPattern.None;
+            return TryDetect(new List<(int Index, int Value)>(sequence), out var p) ? p : PhasingPattern.None;
         }
     }
 }
