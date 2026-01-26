@@ -36,7 +36,7 @@ namespace ConsoleApp1
         public static bool TryDetect(List<(int,int)> sequence, out PhasingPattern pattern)
         {
             pattern = PhasingPattern.None;
-            if (sequence == null || sequence.Count < 3) return false;
+            //if (sequence == null || sequence.Count < 3) return false;
 
             for (int i = 0; i + 3 <= sequence.Count; i++)
             {
