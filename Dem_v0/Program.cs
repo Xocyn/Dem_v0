@@ -12,7 +12,7 @@ namespace Dem_v0
         // si no, se usa "prueba_bits_1_2.txt" en el directorio actual.
         static void Main(string[] args)
         {
-            string path = args.Length > 0 ? args[0] : "prueba_bits_1_2.txt";
+            string path = args.Length > 0 ? args[0] : "prueba_bits_1_3.txt";
 
             if (!File.Exists(path))
             {
@@ -42,6 +42,8 @@ namespace Dem_v0
 
             // NO ME CONVENCE, TENGO QUE PREGUNTAR SI EL ARCHIVO QUE VOY A UTILIZAR VA A SER VALIDO SIEMPRE.
 
+            bool sincronizado = false; // usado en la phasing sequence
+
             while (i + 10 <= input.Length)
             {
                 string ventana = input.Substring(i, 10);
@@ -66,6 +68,7 @@ namespace Dem_v0
                             if (PhasingSequence.TryDetect(encontrados, out var pattern))
                             {
                                 Console.WriteLine($"Patrón de phasing detectado: {pattern}");
+                                sincronizado = true;
                             }
                             // No modificar 'encontrados' aquí; seguir buscando en la secuencia cuando corresponda.
                         }
@@ -97,6 +100,13 @@ namespace Dem_v0
                     Console.WriteLine($"- Offset {e.Index}: valor numérico = {e.Value}, carácter imprimible = {printable}");
                 }
             }
+
+            // Una vez hecha la sincronizacion decodificar el mensaje
+            if (sincronizado)
+            {
+                
+            }
+
         }
     }
 }
