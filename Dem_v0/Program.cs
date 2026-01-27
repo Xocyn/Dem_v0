@@ -12,7 +12,7 @@ namespace Dem_v0
         // si no, se usa "prueba_bits_1_2.txt" en el directorio actual.
         static void Main(string[] args)
         {
-            string path = args.Length > 0 ? args[0] : "prueba_bits_1_3.txt";
+            string path = args.Length > 0 ? args[0] : "prueba_bits_1_2.txt";
 
             if (!File.Exists(path))
             {
@@ -44,7 +44,7 @@ namespace Dem_v0
 
             bool sincronizado = false; // usado en la phasing sequence
 
-            while (i + 10 <= input.Length)
+            while (!sincronizado)
             {
                 string ventana = input.Substring(i, 10);
                 int mensajeInt = Convert.ToInt32(ventana, 2);
@@ -93,18 +93,18 @@ namespace Dem_v0
             }
             else
             {
-                Console.WriteLine($"Detectados {encontrados.Count} mensaje(s):");
+                Console.WriteLine($"Phasing sequence encontrada:");
                 foreach (var e in encontrados)
                 {
-                    string printable = (e.Value >= 32 && e.Value <= 126) ? ((char)e.Value).ToString() : ".";
-                    Console.WriteLine($"- Offset {e.Index}: valor numérico = {e.Value}, carácter imprimible = {printable}");
+                    //string printable = (e.Value >= 32 && e.Value <= 126) ? ((char)e.Value).ToString() : ".";
+                    Console.WriteLine($"- Offset {e.Index}: valor numérico = {e.Value}");
                 }
             }
 
             // Una vez hecha la sincronizacion decodificar el mensaje
             if (sincronizado)
             {
-                
+                Console.WriteLine("PUTO EL QUE LEE");
             }
 
         }
