@@ -46,20 +46,20 @@ namespace ConsoleApp1
                 var (_, b) = sequence[i + 1];
                 var (_, c) = sequence[i + 2];
 
-                if (IsDx(a) && IsRx(b) && IsDx(c))
+                if (IsDx(a) && IsRx(b) && IsDx(c) || IsRx(a) && IsDx(b) && IsDx(c)|| IsDx(a) && IsDx(b) && IsRx(c))
                 {
                     pattern = PhasingPattern.DxRxDx;
                     return true;
                 }
 
-                if (IsRx(a) && IsDx(b) && IsRx(c))
+                if (IsRx(a) && IsDx(b) && IsRx(c) || IsDx(a) && IsRx(b) && IsRx(c) || IsRx(a) && IsRx(b) && IsDx(c))
                 {
                     pattern = PhasingPattern.RxDxRx;
                     return true;
                 }
 
                 // Todavia no contempla si Rx esta en orden
-                if (IsRx(a) && IsRx(b) && IsRx(c))
+                if (IsRx(a) && IsRx(b) && IsRx(c) && (a > b) && (b > c))
                 {
                     pattern = PhasingPattern.RxRxRx;
                     return true;
@@ -69,11 +69,5 @@ namespace ConsoleApp1
             return false;
         }
 
-        // Versión conveniente que devuelve el tipo de patrón (PhasingPattern.None si no hay coincidencia).
-        public static PhasingPattern Detect(IReadOnlyList<(int Index, int Value)> sequence)
-        {
-            if (sequence == null) return PhasingPattern.None;
-            return TryDetect(new List<(int Index, int Value)>(sequence), out var p) ? p : PhasingPattern.None;
-        }
     }
 }
