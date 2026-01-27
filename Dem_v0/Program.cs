@@ -56,9 +56,9 @@ namespace Dem_v0
                         encontrados.Add((i, valor));
                         i += 10;
 
-                        // Comprobar secuencia con TryDetect usando sólo la ventana relevante:
-                        // tomar los últimos N valores (aquí N = 3, ajustar si TryDetect requiere otro tamaño)
-                        //var valores = encontrados.Select(e => e.Value).ToList();
+                        // nose si va a leer todo el vector para verificar
+                        // por ahora lo dejo asi
+
                         const int ventanaDetect = 3;
                         if (encontrados.Count >= ventanaDetect)
                         {
