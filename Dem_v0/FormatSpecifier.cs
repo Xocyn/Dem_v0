@@ -24,11 +24,24 @@ namespace Dem_v0
             }
             else
             {
-                // procesar
-
+                Formato(f_msj);
+                Console.WriteLine(Formato(f_msj));
 
             }
 
+        }
+        public static string Formato(int valor)
+        {
+            return valor switch
+            {
+                112 => "Socorro",
+                116 => "AllShips",
+                114 => "Grupo",
+                120 => "Individual",
+                102 => "Geografica",
+                123 => "Individual2",
+                _ => "Valor no reconocido" // Caso por defecto
+            };
         }
     }
 }

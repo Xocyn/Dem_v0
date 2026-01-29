@@ -40,7 +40,7 @@ namespace Dem_v0
             // Ventana deslizante: intenta decodificar 10 bits; si no es válido o no es caracter de phasing,
             // desplaza 1 bit; si es válido y es caracter de phasing, consume los 10 bits.
 
-            // NO ME CONVENCE, TENGO QUE PREGUNTAR SI EL ARCHIVO QUE VOY A UTILIZAR VA A SER VALIDO SIEMPRE.
+            // AGREGAR: si el mensaje no se sincroniza en N bits, DESCARTAR MENSAJE
 
             bool sincronizado = false; // usado en la phasing sequence
             //int index_sincronizado = 0;
@@ -90,6 +90,7 @@ namespace Dem_v0
                 }
             }
 
+
             if (encontrados.Count == 0)
             {
                 Console.WriteLine("No se detectaron mensajes válidos en la secuencia.");
@@ -115,7 +116,7 @@ namespace Dem_v0
                 string ventana = input.Substring(i, 10);
                 int mensajeInt = Convert.ToInt32(ventana, 2);
                 Decodificador.TryDecodificarMensaje(mensajeInt, out int valor); 
-                FormatSpecifier.Filtro(valor);
+                FormatSpecifier.Filtro(valor); // por ahora el filtrado tambien haria trabajo de format
 
 
             }
