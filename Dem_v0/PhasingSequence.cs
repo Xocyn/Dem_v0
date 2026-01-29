@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ConsoleApp1
+namespace Dem_v0
 {
     // ESTO TIENE UN PROBLEMA SI NO TENGO EN FASE LOS MENSAJES QUE PRETENDO QUE ME LLEGUEN NO VA A FUNCIONAR
     // PERO BUENO, ASÍ ES LA VIDA.

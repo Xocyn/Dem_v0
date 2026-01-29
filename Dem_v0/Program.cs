@@ -1,4 +1,4 @@
-﻿using ConsoleApp1;
+﻿using Dem_v0;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -43,6 +43,7 @@ namespace Dem_v0
             // NO ME CONVENCE, TENGO QUE PREGUNTAR SI EL ARCHIVO QUE VOY A UTILIZAR VA A SER VALIDO SIEMPRE.
 
             bool sincronizado = false; // usado en la phasing sequence
+            //int index_sincronizado = 0;
 
             while (!sincronizado)
             {
@@ -69,6 +70,8 @@ namespace Dem_v0
                             {
                                 Console.WriteLine($"Patrón de phasing detectado: {pattern}");
                                 sincronizado = true;
+                                //index_sincronizado = i;
+
                             }
                             // No modificar 'encontrados' aquí; seguir buscando en la secuencia cuando corresponda.
                         }
@@ -101,10 +104,20 @@ namespace Dem_v0
                 }
             }
 
-            // Una vez hecha la sincronizacion decodificar el mensaje
-            if (sincronizado)
+            bool formatconfirmed = false;
+
+            // Una vez hecha la sincronizacion, llega el format specifier
+            // aca tengo que considerar los DX y RX en cada 4 posiciones
+            while (sincronizado && !formatconfirmed)
             {
-                Console.WriteLine("PUTO EL QUE LEE");
+
+                // Console.WriteLine("PUTO EL QUE LEE");
+                string ventana = input.Substring(i, 10);
+                int mensajeInt = Convert.ToInt32(ventana, 2);
+                Decodificador.TryDecodificarMensaje(mensajeInt, out int valor); 
+                FormatSpecifier.Filtro(valor);
+
+
             }
 
         }
