@@ -43,7 +43,6 @@ namespace Dem_v0
             // AGREGAR: si el mensaje no se sincroniza en N bits, DESCARTAR MENSAJE
 
             bool sincronizado = false; // usado en la phasing sequence
-            //int index_sincronizado = 0;
 
             while (!sincronizado)
             {
@@ -59,21 +58,14 @@ namespace Dem_v0
                         encontrados.Add((i, valor));
                         i += 10;
 
-                        // nose si va a leer todo el vector para verificar
-                        // por ahora lo dejo asi
-
                         const int ventanaDetect = 3;
                         if (encontrados.Count >= ventanaDetect)
                         {
-                            //var ultimaVentana = valores.Skip(valores.Count - ventanaDetect).ToList();
                             if (PhasingSequence.TryDetect(encontrados, out var pattern))
                             {
                                 Console.WriteLine($"Patrón de phasing detectado: {pattern}");
                                 sincronizado = true;
-                                //index_sincronizado = i;
-
                             }
-                            // No modificar 'encontrados' aquí; seguir buscando en la secuencia cuando corresponda.
                         }
                     }
                     else
@@ -107,12 +99,12 @@ namespace Dem_v0
 
             bool formatconfirmed = false;
             int form = 0;
+            int ii = i;
 
             // Una vez hecha la sincronizacion, llega el format specifier
             // aca tengo que considerar los DX y RX en cada 4 posiciones
             while (sincronizado && !formatconfirmed)
             {
-                // Console.WriteLine("PUTO EL QUE LEE");
                 string ventana = input.Substring(i, 10);
                 int mensajeInt = Convert.ToInt32(ventana, 2);
                 Decodificador.TryDecodificarMensaje(mensajeInt, out int valor);
@@ -129,14 +121,46 @@ namespace Dem_v0
             // Una vez confirmado el format specifier tengo que decidir que hacer
             // segun el valor que haya llegado
 
-            if (formatconfirmed)
+            switch (form)
             {
-                // hacer algo
-            }
-            else
-            {
-                // hacer otra cosa
-
+                case 112:
+                    //metodo para formato socorro
+                    FormatSpecifier.Socorro();
+                    if (Decodificador.DxRx(input,i))
+                    {
+                        Console.WriteLine("Formato DX detectado.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("PUTO");
+                    }
+                    break;
+                case 116:
+                    //metodo para formato all ships
+                    break; 
+                case 114:
+                    //metodo para formato grupo
+                    break;
+                case 120:
+                    //metodo para formato individual
+                    break;  
+                case 102:
+                    //metodo para formato geografica
+                    if (Decodificador.DxRx(input, i))
+                    {
+                        Console.WriteLine("Formato DX detectado.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("PUTO");
+                    }
+                    break;
+                case 123:
+                    //metodo para formato individual2
+                    break;
+                default:
+                    //metodo para formato no reconocido
+                    break;
             }
 
 
