@@ -106,23 +106,39 @@ namespace Dem_v0
             }
 
             bool formatconfirmed = false;
+            int form = 0;
 
             // Una vez hecha la sincronizacion, llega el format specifier
             // aca tengo que considerar los DX y RX en cada 4 posiciones
             while (sincronizado && !formatconfirmed)
             {
-
                 // Console.WriteLine("PUTO EL QUE LEE");
                 string ventana = input.Substring(i, 10);
                 int mensajeInt = Convert.ToInt32(ventana, 2);
-                Decodificador.TryDecodificarMensaje(mensajeInt, out int valor); 
-                FormatSpecifier.Filtro(valor, out int j); // por ahora el filtrado tambien haria trabajo de format
+                Decodificador.TryDecodificarMensaje(mensajeInt, out int valor);
+                form = FormatSpecifier.Filtro(valor, out int j); // por ahora el filtrado tambien haria trabajo de format
+                i = i + 10;
                 if (j == 1)
-                { 
+                {
                     formatconfirmed = true;
+                    Console.WriteLine($"Format specifier confirmado: {form}");
                 }
 
             }
+
+            // Una vez confirmado el format specifier tengo que decidir que hacer
+            // segun el valor que haya llegado
+
+            if (formatconfirmed)
+            {
+                // hacer algo
+            }
+            else
+            {
+                // hacer otra cosa
+
+            }
+
 
         }
     }

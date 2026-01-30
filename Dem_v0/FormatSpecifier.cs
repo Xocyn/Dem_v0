@@ -8,7 +8,7 @@ namespace Dem_v0
     internal static class FormatSpecifier
     {
         // necesito filtrar primero los valores que pueden quedar del phasing
-        public static void Filtro(int f_msj, out int j)
+        public static int Filtro(int f_msj, out int j)
         {
             j = 0; // Inicializar obligatoriamente
 
@@ -16,12 +16,14 @@ namespace Dem_v0
             {
                 // descartar
                 Console.WriteLine("Valor descartado");
-                j = 1; // Asignar valor para salir del while
+                j = 0; // Mantener el While
+                return 0;
             }
             else
             {
                 Console.WriteLine(Formato(f_msj));
-                j = 0; // Mantener el while activo
+                j = 1; // Salir del while
+                return f_msj;
             }
         }
 
@@ -37,6 +39,11 @@ namespace Dem_v0
                 123 => "Individual2",
                 _ => "Valor no reconocido" // Caso por defecto
             };
+        }
+
+        public static void Socorro()
+        {
+
         }
     }
 }
