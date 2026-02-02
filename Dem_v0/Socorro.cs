@@ -53,5 +53,55 @@ namespace Dem_v0
             return j;
 
         }
+
+        public static void NatureofDistress(int i, string input)
+        {
+            string ventana = input.Substring(i, 10);
+            int mensajeInt = Convert.ToInt32(ventana, 2);
+            Decodificador.TryDecodificarMensaje(mensajeInt, out int valor);
+                switch (valor)
+                {
+                    case 100: 
+                        Console.WriteLine("Incendio/Explosión");
+                        break;
+                    case 101: 
+                        Console.WriteLine("Inundación");
+                        break;
+                    case 102: 
+                        Console.WriteLine("Colision");
+                        break;
+                    case 103: 
+                        Console.WriteLine("Encallado");
+                        break;
+                    case 104: 
+                        Console.WriteLine("Peligro de zozobra");
+                        break;
+                    case 105: 
+                        Console.WriteLine("Hundimiento");  
+                        break;
+                    case 106: 
+                        Console.WriteLine("Deshabilitado y a la deriva");
+                        break;
+                    case 107: 
+                        Console.WriteLine("Socorro sin designar");
+                        break;
+                    case 108: 
+                        Console.WriteLine("Abandonando la nave");
+                        break;
+                    case 109: 
+                        Console.WriteLine("Pirateria/Robo a mano armada");
+                        break;
+                    case 110: 
+                        Console.WriteLine("Hombre al agua");
+                        break;
+                    case 112:
+                        Console.WriteLine("EPIRB emitido");
+                        break;
+                    default:
+                    // no hacer nada
+                        break;
+                }
+        }
+
     }
 }
