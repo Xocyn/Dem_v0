@@ -64,9 +64,11 @@ namespace Dem_v0
             string ventana = input.Substring(i, 10);
             int mensajeInt = Convert.ToInt32(ventana, 2);
             TryDecodificarMensaje(mensajeInt, out int valor);
-            string ventana2 = input.Substring(i+40, 10);
+
+            string ventana2 = input.Substring(i+50, 10);
             int mensajeInt2 = Convert.ToInt32(ventana2, 2);
             TryDecodificarMensaje(mensajeInt2, out int valor2);
+
             if (valor == valor2)
             {
                 Console.WriteLine("Dx y Rx son iguales");

@@ -12,7 +12,7 @@ namespace Dem_v0
         // si no, se usa "prueba_bits_1_2.txt" en el directorio actual.
         static void Main(string[] args)
         {
-            string path = args.Length > 0 ? args[0] : "prueba_bits_1_4.txt";
+            string path = args.Length > 0 ? args[0] : "prueba_bits_1_5.txt";
 
             if (!File.Exists(path))
             {

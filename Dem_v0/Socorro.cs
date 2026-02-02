@@ -14,7 +14,7 @@ namespace Dem_v0
             int j = 0;
             List<int> MMSI = new List<int>();
 
-            string ventana = input.Substring(i+10, 10);
+            string ventana = input.Substring(i+20, 10);
             int mensajeInt = Convert.ToInt32(ventana, 2);
             Decodificador.TryDecodificarMensaje(mensajeInt, out int valor);
 
@@ -22,7 +22,7 @@ namespace Dem_v0
                 {
                     // decodifico el MMSI en base a esta posicion
                     i = i + 40;
-                    for (int k = 0; k < 90; k += 10)
+                    for (int k = 0; k < 100; k += 10)
                     {
                         ventana = input.Substring(i + k, 10);
                         mensajeInt = Convert.ToInt32(ventana, 2);
@@ -34,7 +34,7 @@ namespace Dem_v0
                 {
                     // decodifico el MMSI en base a esta posicion
                     i = i + 20;
-                    for (int k = 0; k < 90; k += 10)
+                    for (int k = 0; k < 100; k += 10)
                     {
                         ventana = input.Substring(i + k, 10);
                         mensajeInt = Convert.ToInt32(ventana, 2);
@@ -45,10 +45,10 @@ namespace Dem_v0
 
                 for (int w = 0; w < MMSI.Count; w += 2) // Incrementa de 2 en 2
                 {
-                Console.WriteLine($"{MMSI[i]}");
+                Console.WriteLine($"{MMSI[w]}");
                 }
 
-                j = i + 100;
+                j = i + 100; // lo deveria dejar en la posicion del mensaje 1 (nature of distress)
 
             return j;
 
