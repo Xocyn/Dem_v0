@@ -98,8 +98,9 @@ namespace Dem_v0
             }
 
             bool formatconfirmed = false;
+            bool dxrxconfirmed = false;
             int form = 0;
-            int ii = i;
+            // int ii = i;
 
             // Una vez hecha la sincronizacion, llega el format specifier
             // aca tengo que considerar los DX y RX en cada 4 posiciones
@@ -109,8 +110,10 @@ namespace Dem_v0
                 int mensajeInt = Convert.ToInt32(ventana, 2);
                 Decodificador.TryDecodificarMensaje(mensajeInt, out int valor);
                 form = FormatSpecifier.Filtro(valor, out int j); // por ahora el filtrado tambien haria trabajo de format
+                dxrxconfirmed = Decodificador.DxRx(input, i); // verifica si son iguales los DX y RX
+                // el problema surge sino necesito confirmarlos (solo caso socorro y allships
                 i = i + 10;
-                if (j == 1)
+                if (j == 1 && dxrxconfirmed)
                 {
                     formatconfirmed = true;
                     Console.WriteLine($"Format specifier confirmado: {form}");
@@ -118,22 +121,23 @@ namespace Dem_v0
 
             }
 
+            i = i - 10;  // retrocedo 10 para que el switch tome el format specifier correcto
+
             // Una vez confirmado el format specifier tengo que decidir que hacer
             // segun el valor que haya llegado
+
+            // ME ESTOY COMIENDO OLIMPICAMENTE LOS DOS FORMAT SPECIFIER RECIBIDOS
+            // DIRECTAMENTE COMPRARO EL PRIMER RECIBIDO CON EL RX
+            // NO ESOY VERIFICANDO CON EL SEGUNDO QUE ME LLEGA
+            // HABRIA PROBLEMA SI EL PRIMERO TIENE ERROR
 
             switch (form)
             {
                 case 112:
                     //metodo para formato socorro
-                    FormatSpecifier.Socorro();
-                    if (Decodificador.DxRx(input,i))
-                    {
-                        Console.WriteLine("Formato DX detectado.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("PUTO");
-                    }
+                    i = Socorro.MMSI(i,form, input);
+
+
                     break;
                 case 116:
                     //metodo para formato all ships

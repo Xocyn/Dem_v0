@@ -69,10 +69,12 @@ namespace Dem_v0
             TryDecodificarMensaje(mensajeInt2, out int valor2);
             if (valor == valor2)
             {
+                Console.WriteLine("Dx y Rx son iguales");
                 return true;
             }
             else 
             {
+                Console.WriteLine("Dx y Rx NO son iguales");
                 return false;
             }
         }

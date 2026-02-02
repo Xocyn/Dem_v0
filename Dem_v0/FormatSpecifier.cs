@@ -41,10 +41,6 @@ namespace Dem_v0
             };
         }
 
-        public static void Socorro()
-        {
-
-        }
     }
 }
 
