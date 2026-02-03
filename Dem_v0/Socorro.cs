@@ -43,6 +43,8 @@ namespace Dem_v0
                     }
                 }
 
+                // tambien podria eleminar las posiciones que no me sirven o guardar estos valores en una lista
+
                 for (int w = 0; w < MMSI.Count; w += 2) // Incrementa de 2 en 2
                 {
                 Console.WriteLine($"{MMSI[w]}");
@@ -54,8 +56,9 @@ namespace Dem_v0
 
         }
 
-        public static void NatureofDistress(int i, string input)
+        public static int NatureofDistress(int i, string input)
         {
+            int j = 0;
             string ventana = input.Substring(i, 10);
             int mensajeInt = Convert.ToInt32(ventana, 2);
             Decodificador.TryDecodificarMensaje(mensajeInt, out int valor);
@@ -101,6 +104,8 @@ namespace Dem_v0
                     // no hacer nada
                         break;
                 }
+            j = i + 10;
+            return j;
         }
 
     }

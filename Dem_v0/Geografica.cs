@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 
 namespace Dem_v0
@@ -12,6 +13,46 @@ namespace Dem_v0
 
             // luego obtengo longitud (paralelo a greenwich)
 
+        }
+
+        public static int PuntoGeografico(int i, string input) // lo uso para socorro (grados y minutos)
+        {
+            int j = 0;
+            List<int> PuntoGeo = new List<int>();
+            string ventana;
+            int mensajeInt;
+          
+                for (int k = 0; k < 100; k += 10) // porque 100 y no 80
+                {
+                    ventana = input.Substring(i + k, 10);
+                    mensajeInt = Convert.ToInt32(ventana, 2);
+                    Decodificador.TryDecodificarMensaje(mensajeInt, out int valor);
+                    PuntoGeo.Add(valor);  // aca obtengo el 1234567890 ahora debo aplicar "mascaras" / elimino las posiciones impares
+                }
+
+            EliminarPosicionesImpares(PuntoGeo);
+            Console.WriteLine($"{PuntoGeo}");
+            // Ahora con PuntoGeo puedo decodificar toda la data
+
+            j = i + 100;
+            return j;
+
+
+
+
+
+        }
+
+        public static void EliminarPosicionesImpares(List<int> lista)
+        {
+            // Recorrer de atrás hacia adelante para evitar problemas al eliminar
+            for (int i = lista.Count - 1; i >= 0; i--)
+            {
+                if (i % 2 != 0) // Si la posición es impar
+                {
+                    lista.RemoveAt(i);
+                }
+            }
         }
     }
 }
