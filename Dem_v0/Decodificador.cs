@@ -71,12 +71,12 @@ namespace Dem_v0
 
             if (valor == valor2)
             {
-                Console.WriteLine("Dx y Rx son iguales");
+                //Console.WriteLine("Dx y Rx son iguales");
                 return true;
             }
             else 
             {
-                Console.WriteLine("Dx y Rx NO son iguales");
+                //Console.WriteLine("Dx y Rx NO son iguales");
                 return false;
             }
         }

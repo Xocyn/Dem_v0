@@ -140,9 +140,19 @@ namespace Dem_v0
 
                     i = Socorro.MMSI(i,form, input);
                     i = Socorro.NatureofDistress(i, input);
-                    i = Geografica.PuntoGeografico(i, input);
+                    i = Geografica.PuntoGeografico(i, input, out bool valid);
+                        if(valid)
+                        {
+                            i = Geografica.UTC(i,input);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Hora: {8 | 8 | 8 | 8}");
+                            i = i + 40;
+                        }
 
                     break;
+
                 case 116:
                     //metodo para formato all ships
                     break; 
