@@ -104,7 +104,7 @@ namespace Dem_v0
                     // no hacer nada
                         break;
                 }
-            j = i + 10;
+            j = i + 20;
             return j;
         }
 

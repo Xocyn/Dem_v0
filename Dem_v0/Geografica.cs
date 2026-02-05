@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Dem_v0
 {
@@ -22,7 +23,7 @@ namespace Dem_v0
             string ventana;
             int mensajeInt;
           
-                for (int k = 0; k < 100; k += 10) // porque 100 y no 80
+                for (int k = 0; k < 100; k += 10) 
                 {
                     ventana = input.Substring(i + k, 10);
                     mensajeInt = Convert.ToInt32(ventana, 2);
@@ -31,7 +32,7 @@ namespace Dem_v0
                 }
 
             EliminarPosicionesImpares(PuntoGeo);
-            Console.WriteLine($"{PuntoGeo}");
+            Console.WriteLine($"Ubicacion: {string.Join(" | ", PuntoGeo)}");
             // Ahora con PuntoGeo puedo decodificar toda la data
 
             j = i + 100;
