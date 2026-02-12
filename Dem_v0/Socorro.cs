@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Dem_v0
 {
@@ -13,7 +14,9 @@ namespace Dem_v0
         {
             int j = 0;
             List<int> MMSI = new List<int>();
-
+            List<int> same = new List<int>();
+            List<string> fail = new List<string> {"X", "X", "X", "X" , "X", "X", "X", "X", "X" };
+            
             string ventana = input.Substring(i+20, 10);
             int mensajeInt = Convert.ToInt32(ventana, 2);
             Decodificador.TryDecodificarMensaje(mensajeInt, out int valor);
@@ -28,6 +31,10 @@ namespace Dem_v0
                         mensajeInt = Convert.ToInt32(ventana, 2);
                         Decodificador.TryDecodificarMensaje(mensajeInt, out valor);
                         MMSI.Add(valor);
+                        if (Decodificador.DxRx(input, i + k))
+                        {
+                            same.Add(valor);
+                        }
                     }
                 }
                 else // es el segundo format recibido
@@ -40,15 +47,36 @@ namespace Dem_v0
                         mensajeInt = Convert.ToInt32(ventana, 2);
                         Decodificador.TryDecodificarMensaje(mensajeInt, out valor);
                         MMSI.Add(valor);
+                        if (Decodificador.DxRx(input, i + k))
+                        {
+                            same.Add(valor);
+                        }
                     }
                 }
 
-                // tambien podria eleminar las posiciones que no me sirven o guardar estos valores en una lista
+                Geografica.EliminarPosicionesImpares(MMSI);
+                bool mismoContenido = !MMSI.Except(same).Any() && !same.Except(MMSI).Any();
 
-                for (int w = 0; w < MMSI.Count; w += 2) // Incrementa de 2 en 2
+                if (mismoContenido)
                 {
-                Console.WriteLine($"{MMSI[w]}");
+                    Console.WriteLine("MMSI DX/RX coinciden");
+                    Console.WriteLine($"MMSI: {string.Join(" | ", MMSI)}");
+                 
                 }
+                else
+                {
+                    Console.WriteLine("MMSI DX/RX NO coinciden");
+                    Console.WriteLine($"MMSI desconocido: {string.Join(" | ", fail)}");
+                   
+                }
+
+
+            // tambien podria eleminar las posiciones que no me sirven o guardar estos valores en una lista
+
+            //for (int w = 0; w < MMSI.Count; w += 2) // Incrementa de 2 en 2
+            //    {
+            //    Console.WriteLine($"{MMSI[w]}");
+            //    }
 
                 j = i + 100; // lo deveria dejar en la posicion del mensaje 1 (nature of distress)
 

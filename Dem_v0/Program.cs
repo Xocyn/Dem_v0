@@ -8,31 +8,36 @@ namespace Dem_v0
 {
     internal class Program
     {
-        // Lee la secuencia binaria desde un archivo. Si se pasa un argumento, se usa como ruta;
-        // si no, se usa "prueba_bits_1_2.txt" en el directorio actual.
         static void Main(string[] args)
         {
-            string path = args.Length > 0 ? args[0] : "codificacion_final.txt";
 
-            if (!File.Exists(path))
-            {
-                Console.WriteLine($"Archivo no encontrado: {path}");
-                return;
-            }
+            // COMENTO PARA TXT
+            //string path = args.Length > 0 ? args[0] : "prueba_socorro.txt";
 
-            string raw = File.ReadAllText(path);
+            //if (!File.Exists(path))
+            //{
+            //    Console.WriteLine($"Archivo no encontrado: {path}");
+            //    return;
+            //}
 
-            // Filtrar sólo caracteres '0' y '1' (elimina saltos de línea, espacios, etc.)
-            string input = new string(raw.Where(c => c == '0' || c == '1').ToArray());
+            //string raw = File.ReadAllText(path);
 
-            if (string.IsNullOrEmpty(input))
-            {
-                Console.WriteLine("El archivo no contiene datos binarios (0/1).");
-                return;
-            }
+            //// Filtrar sólo caracteres '0' y '1' (elimina saltos de línea, espacios, etc.)
+            //string input = new string(raw.Where(c => c == '0' || c == '1').ToArray());
 
-            Console.WriteLine($"Usando archivo: {path}");
-            Console.WriteLine($"Secuencia (longitud {input.Length}): {input}");
+            //if (string.IsNullOrEmpty(input))
+            //{
+            //    Console.WriteLine("El archivo no contiene datos binarios (0/1).");
+            //    return;
+            //}
+
+            // COMENTO PARA WAV
+            //string wavfile = args.Length > 0 ? args[0] : "prueba_mod.wav";
+            //string input = BFSKDemodulator.DecodeBits(wavfile);
+            string pathx = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "prueba_mod.wav");
+            string input = BFSKDemodulator.DecodeBits(pathx);
+
+
 
             List<(int Index, int Value)> encontrados = new List<(int, int)>();
             int i = 0;
@@ -150,6 +155,8 @@ namespace Dem_v0
                             Console.WriteLine($"Hora: {8 | 8 | 8 | 8}");
                             i = i + 40;
                         }
+
+                    //AGREGAR: EOS
 
                     break;
 
