@@ -42,17 +42,46 @@ namespace Dem_v0
             bool mismoContenido = !PuntoGeo.Except(same).Any() && !same.Except(PuntoGeo).Any();
 
             // Ahora con PuntoGeo puedo decodificar toda la data
-            // AGREGAR: Formato lindo para cada uno de los valores NE/NW/SE/SW
+
+            // Formato lindo para cada uno de los valores NE/NW/SE/SW
+            // AGREGAR: si no cumple con subtring's lanzar error o desconocido
+
+            string todos = string.Concat(PuntoGeo.Select(n => n.ToString()));
+            string referencia = todos.Substring(0, 1); // posición 0
+            string lat_g = todos.Substring(1, 2); // posiciones 1-2
+            string lat_m = todos.Substring(3, 2); // posiciones 3-4
+            string long_g = todos.Substring(5, 3); // posiciones 5-7
+            string long_m = todos.Substring(8, 2); // posiciones 8-9
+
+            switch (referencia)
+            {
+                case "0":
+                    referencia = "NE";
+                    break;
+                case "1":
+                    referencia = "NW";
+                    break;
+                case "2":
+                    referencia = "SE";
+                    break;
+                case "3":
+                    referencia = "SW";
+                    break;
+                default:
+                    referencia = "??";
+                    break;
+            }
 
             if (mismoContenido)
             {
-                Console.WriteLine("Coordenadas DX/RX coinciden");
-                Console.WriteLine($"Ubicacion: {string.Join(" | ", PuntoGeo)}");
+                //Console.WriteLine("Coordenadas DX/RX coinciden");
+                //Console.WriteLine($"Ubicacion: {string.Join(" | ", PuntoGeo)}");
+                Console.WriteLine($"Ubicacion: {referencia} - Latitud {lat_g}° {lat_m}' - Longitud {long_g}° {long_m}'");
                 valid = true;
             }
             else
             {
-                Console.WriteLine("Coordenadas DX/RX NO coinciden");
+                //Console.WriteLine("Coordenadas DX/RX NO coinciden");
                 Console.WriteLine($"Ubicacion desconocida: {string.Join(" | ", fail)}");
                 valid = false;
             }

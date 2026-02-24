@@ -35,8 +35,8 @@ namespace Dem_v0
             //string wavfile = args.Length > 0 ? args[0] : "prueba_mod.wav";
             //string input = BFSKDemodulator.DecodeBits(wavfile);
             string pathx = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "prueba_mod.wav");
-            string input = BFSKDemodulator.DecodeBits(pathx);
-
+            //string input = BFSKDemodulator.DecodeBits(pathx);
+            string input = BFSKDemodulator.DemodulateToString(pathx);
 
 
             List<(int Index, int Value)> encontrados = new List<(int, int)>();
@@ -155,7 +155,7 @@ namespace Dem_v0
                             Console.WriteLine($"Hora: {8 | 8 | 8 | 8}");
                             i = i + 40;
                         }
-
+                    i = Socorro.FirstTelecommand(i, input);
                     //AGREGAR: EOS
 
                     break;
