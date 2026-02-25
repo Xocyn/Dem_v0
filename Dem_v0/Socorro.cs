@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -10,7 +11,7 @@ namespace Dem_v0
     {
         // El socorro es broadcast, no necesita el MMSI del receptor
         // la funcion me devuelve un int que representa cuantas posiciones debo avanzar luego de leer el MMSI
-        public static int MMSI(int i, int form, string input)
+        public static int MMSI(int i, int form, string input, List<int> ECC)
         {
             int j = 0;
             List<int> MMSI = new List<int>();
@@ -57,6 +58,11 @@ namespace Dem_v0
             Geografica.EliminarPosicionesImpares(MMSI);
             bool mismoContenido = !MMSI.Except(same).Any() && !same.Except(MMSI).Any();
 
+            foreach (int valorMMSI in MMSI)
+            {
+                ECC.Add(valorMMSI);
+            }
+
             if (mismoContenido)
             {
                 Console.WriteLine("MMSI DX/RX coinciden");
@@ -84,12 +90,13 @@ namespace Dem_v0
 
         }
 
-        public static int FirstTelecommand(int i, string input)
+        public static int FirstTelecommand(int i, string input, List<int> ECC)
         {
             int j = 0;
             string ventana = input.Substring(i, 10);
             int mensajeInt = Convert.ToInt32(ventana, 2);
             Decodificador.TryDecodificarMensaje(mensajeInt, out int valor);
+            ECC.Add(valor);
             switch (valor)
             {
                 case 100:
@@ -115,13 +122,14 @@ namespace Dem_v0
             j = i + 20; 
             return j;
         } 
-        public static int NatureofDistress(int i, string input)
+        public static int NatureofDistress(int i, string input, List<int> ECC)
         {
             int j = 0;
             string ventana = input.Substring(i, 10);
             int mensajeInt = Convert.ToInt32(ventana, 2);
             Decodificador.TryDecodificarMensaje(mensajeInt, out int valor);
-                switch (valor)
+            ECC.Add(valor);
+            switch (valor)
                 {
                     case 100: 
                         Console.WriteLine("Incendio/Explosión");

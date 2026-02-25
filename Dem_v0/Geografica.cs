@@ -17,7 +17,7 @@ namespace Dem_v0
 
         }
 
-        public static int PuntoGeografico(int i, string input, out bool valid) // lo uso para socorro (grados y minutos)
+        public static int PuntoGeografico(int i, string input, List<int> ECC, out bool valid) // lo uso para socorro (grados y minutos)
         {
             int j = 0;
             List<int> PuntoGeo = new List<int>();
@@ -40,6 +40,11 @@ namespace Dem_v0
 
             EliminarPosicionesImpares(PuntoGeo);
             bool mismoContenido = !PuntoGeo.Except(same).Any() && !same.Except(PuntoGeo).Any();
+
+            foreach (int vaal in PuntoGeo)
+            {
+                ECC.Add(vaal);
+            }
 
             // Ahora con PuntoGeo puedo decodificar toda la data
 
@@ -107,7 +112,7 @@ namespace Dem_v0
             }
         }
 
-        public static int UTC(int i, string input)
+        public static int UTC(int i, string input, List<int> ECC)
         {
             // obtengo hora UTC
             int j = 0;
@@ -123,6 +128,12 @@ namespace Dem_v0
                 UTC.Add(valor);
             }
             EliminarPosicionesImpares(UTC);
+
+            foreach (int val in UTC)
+            {
+                ECC.Add(val);
+            }
+
             Console.WriteLine($"Hora UTC: {string.Join(" | ", UTC)}");
             j= i + 40;
 

@@ -1,6 +1,7 @@
 ﻿using Dem_v0;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 
@@ -105,7 +106,6 @@ namespace Dem_v0
             bool formatconfirmed = false;
             bool dxrxconfirmed = false;
             int form = 0;
-            // int ii = i;
 
             // Una vez hecha la sincronizacion, llega el format specifier
             // aca tengo que considerar los DX y RX en cada 4 posiciones
@@ -130,33 +130,50 @@ namespace Dem_v0
 
             i = i - 10;  // retrocedo 10 para que el switch tome el format specifier correcto
 
-            // Una vez confirmado el format specifier tengo que decidir que hacer
-            // segun el valor que haya llegado
+            // SINO CONFIRMO FORMATO, DESCARTAR MENSAJE (AGREGAR)
 
-            // ME ESTOY COMIENDO OLIMPICAMENTE LOS DOS FORMAT SPECIFIER RECIBIDOS
-            // DIRECTAMENTE COMPRARO EL PRIMER RECIBIDO CON EL RX
-            // NO ESOY VERIFICANDO CON EL SEGUNDO QUE ME LLEGA
-            // HABRIA PROBLEMA SI EL PRIMERO TIENE ERROR
+            List<int> ECC = new List<int>();
 
             switch (form)
             {
                 case 112:
                     //metodo para formato socorro
+                    ECC.Add(112);
+                    i = Socorro.MMSI(i, form, input, ECC);
+                    i = Socorro.NatureofDistress(i, input, ECC);
+                    i = Geografica.PuntoGeografico(i, input, ECC, out bool valid);
+                    if (valid)
+                    {
+                        i = Geografica.UTC(i, input, ECC);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Hora: {8 | 8 | 8 | 8}");
+                        i = i + 40;
+                        ECC.Add(08); ECC.Add(08);
 
-                    i = Socorro.MMSI(i,form, input);
-                    i = Socorro.NatureofDistress(i, input);
-                    i = Geografica.PuntoGeografico(i, input, out bool valid);
-                        if(valid)
-                        {
-                            i = Geografica.UTC(i,input);
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Hora: {8 | 8 | 8 | 8}");
-                            i = i + 40;
-                        }
-                    i = Socorro.FirstTelecommand(i, input);
-                    //AGREGAR: EOS
+                    }
+                    i = Socorro.FirstTelecommand(i, input, ECC);
+
+                    for (int k = 0; i+k < input.Length; k += 10)
+                    {
+                        int valor;
+                        string ventana = input.Substring(i + k, 10);
+                        int mensajeInt = Convert.ToInt32(ventana, 2);
+                        Decodificador.TryDecodificarMensaje(mensajeInt, out valor);
+                        Console.WriteLine($"{valor}");
+                    }
+
+                    int val;
+                    string win = input.Substring(i, 10);
+                    int ms = Convert.ToInt32(win, 2);
+                    Decodificador.TryDecodificarMensaje(ms, out val);
+                    ECC.Add(val);
+                    if (val == 127)
+                    {
+                        Console.WriteLine("EOS detectado");
+                        Decodificador.checkecc(i, input, ECC);
+                    }
 
                     break;
 

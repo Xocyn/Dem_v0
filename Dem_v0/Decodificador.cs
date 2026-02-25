@@ -81,5 +81,27 @@ namespace Dem_v0
             }
         }
 
+        public static void checkecc(int i, string input, List<int> ECC)
+        {
+            // 1️ Sumar todos los elementos
+            int sum = ECC.Sum();
+
+            // 2️ Aplicar máscara de 7 bits (0x7F = 127 = 01111111)
+            int ecc = sum & 0x7F;
+
+            int valor;
+            string ventana = input.Substring(i + 20, 10);
+            int mensajeInt = Convert.ToInt32(ventana, 2);
+            Decodificador.TryDecodificarMensaje(mensajeInt, out valor);
+            if (ecc == valor)
+            {
+                Console.WriteLine("ECC correcto");
+            }
+            else
+            {
+                Console.WriteLine("Error en ECC: valor calculado = " + ecc + ", valor recibido = " + valor);
+            }
+        }
+
     }
 }
