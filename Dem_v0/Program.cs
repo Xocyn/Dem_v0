@@ -179,6 +179,24 @@ namespace Dem_v0
 
                 case 116:
                     //metodo para formato all ships
+                    ECC.Add(116);
+                    i = General.Categoria(i, form, input, ECC);
+                    i = General.MMSI_2(i, input, ECC);
+                    // leer el primer y el segundo telecomando (MENSAJE 1)
+
+                    // ver que frecuencia/ canal/ etc (MENSAJE 2)
+
+                    // EOS/ECC
+                    for (int k = 0; i + k < input.Length; k += 10)
+                    {
+                        int valor;
+                        string ventana = input.Substring(i + k, 10);
+                        int mensajeInt = Convert.ToInt32(ventana, 2);
+                        Decodificador.TryDecodificarMensaje(mensajeInt, out valor);
+                        Console.WriteLine($"{valor}");
+                    }
+
+
                     break; 
                 case 114:
                     //metodo para formato grupo
