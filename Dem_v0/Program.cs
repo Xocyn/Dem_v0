@@ -155,19 +155,18 @@ namespace Dem_v0
                     }
                     i = Socorro.FirstTelecommand(i, input, ECC);
 
-                    for (int k = 0; i+k < input.Length; k += 10)
-                    {
-                        int valor;
-                        string ventana = input.Substring(i + k, 10);
-                        int mensajeInt = Convert.ToInt32(ventana, 2);
-                        Decodificador.TryDecodificarMensaje(mensajeInt, out valor);
-                        Console.WriteLine($"{valor}");
-                    }
+                    //for (int k = 0; i+k < input.Length; k += 10)
+                    //{
+                    //    int valor;
+                    //    string ventana = input.Substring(i + k, 10);
+                    //    int mensajeInt = Convert.ToInt32(ventana, 2);
+                    //    Decodificador.TryDecodificarMensaje(mensajeInt, out valor);
+                    //    Console.WriteLine($"{valor}");
+                    //}
 
-                    int val;
                     string win = input.Substring(i, 10);
                     int ms = Convert.ToInt32(win, 2);
-                    Decodificador.TryDecodificarMensaje(ms, out val);
+                    Decodificador.TryDecodificarMensaje(ms, out int val);
                     ECC.Add(val);
                     if (val == 127)
                     {
@@ -183,19 +182,22 @@ namespace Dem_v0
                     i = General.Categoria(i, form, input, ECC);
                     i = General.MMSI_2(i, input, ECC);
                     // leer el primer y el segundo telecomando (MENSAJE 1)
-
+                    i = General.Mensaje_1(i, input, ECC);  // En el primer telecomando decidiría si 3 caracteres o 4 de frecuencia (CASO ESPECIAL)
                     // ver que frecuencia/ canal/ etc (MENSAJE 2)
+                    byte h = 0;
+                    i = General.Mensaje_2(i, input, ECC, h);
+                    i = General.Mensaje_2(i, input, ECC, h);
 
                     // EOS/ECC
-                    for (int k = 0; i + k < input.Length; k += 10)
+                    string win_1 = input.Substring(i, 10);
+                    int ms_1 = Convert.ToInt32(win_1, 2);
+                    Decodificador.TryDecodificarMensaje(ms_1, out int val_1);
+                    ECC.Add(val_1);
+                    if (val_1 == 127)
                     {
-                        int valor;
-                        string ventana = input.Substring(i + k, 10);
-                        int mensajeInt = Convert.ToInt32(ventana, 2);
-                        Decodificador.TryDecodificarMensaje(mensajeInt, out valor);
-                        Console.WriteLine($"{valor}");
+                        Console.WriteLine("EOS detectado");
+                        Decodificador.checkecc(i, input, ECC);
                     }
-
 
                     break; 
                 case 114:
